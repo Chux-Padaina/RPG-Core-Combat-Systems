@@ -15,31 +15,35 @@ namespace RPG.Combat
         [SerializeField]
         float currentWeaponDamage = 25f;
 
-        private float timeSinceLastAttack = 0;
+        private float timeSinceLastAttack = Mathf.Infinity;
 
-        Transform target;
+        Health target;
         private void Update()
         {
             timeSinceLastAttack += Time.deltaTime;
             if (target == null) return;
+            if (!target.IsAlive()) return;
             MoveWithinRange();           
         }
-        public void Attack(CombatTarget combatTarget)
+        public void Attack(GameObject combatTarget)
         {
+            if (!GetComponent<Health>().IsAlive()) return;
             GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.transform;
+            target = combatTarget.GetComponent<Health>();
         }
 
         public void Cancel()
         {
             target = null;
+            GetComponent<Animator>().SetTrigger("StopAttack");
+            GetComponent<Animator>().ResetTrigger("Attack");
         }
 
         void MoveWithinRange()
         {
-            if (target != null && Vector3.Distance(transform.position, target.position) > weaponRange)
+            if (target != null && Vector3.Distance(transform.position, target.transform.position) > weaponRange)
             {
-                GetComponent<Mover>().MoveTo(target.position);
+                GetComponent<Mover>().MoveTo(target.transform.position);
             }
             else
             {
@@ -50,9 +54,11 @@ namespace RPG.Combat
 
         private void AttackBehaviour()
         {
-            if(timeSinceLastAttack >= timeBetweenAttacks)
+            transform.LookAt(target.transform);
+            if (timeSinceLastAttack >= timeBetweenAttacks)
             {
                 // Will trigger Hit event
+                GetComponent<Animator>().ResetTrigger("StopAttack");
                 GetComponent<Animator>().SetTrigger("Attack");
                 timeSinceLastAttack = 0;
             }
@@ -61,8 +67,8 @@ namespace RPG.Combat
         // Animation Event
         void Hit()
         {
-            Health healthComponent = target.GetComponent<Health>();
-            healthComponent.TakeDamage(currentWeaponDamage);
+            if(target == null) return;  
+            target.TakeDamage(currentWeaponDamage);
         }
     }
 }

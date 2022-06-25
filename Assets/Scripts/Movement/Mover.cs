@@ -21,6 +21,10 @@ namespace RPG.Movement
 
         private void Update()
         {
+            if (!GetComponent<Health>().IsAlive())
+            {
+                navMeshAgent.enabled = false;
+            }
             UpdateAnimator();
         }
 
@@ -39,8 +43,11 @@ namespace RPG.Movement
 
         public void StartMoveAction(Vector3 destination)
         {
-            GetComponent<ActionScheduler>().StartAction(this);
-            MoveTo(destination);
+            if (GetComponent<Health>().IsAlive())
+            {
+                GetComponent<ActionScheduler>().StartAction(this);
+                MoveTo(destination);
+            }
         }
         public void MoveTo(Vector3 destination)
         {
