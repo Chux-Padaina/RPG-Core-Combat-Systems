@@ -4,6 +4,7 @@ using UnityEngine;
 using RPG.Combat;
 using RPG.Movement;
 using RPG.Core;
+using System;
 
 namespace RPG.Control
 {
@@ -11,16 +12,20 @@ namespace RPG.Control
     {
         [SerializeField]
         float chaseDistance = 5f;
+        [SerializeField]
+        PatrolPath patrolPath;
+        [SerializeField]
+        float waypointTolerance = 1f;
+        [SerializeField]
+        float dwellTime = 2f;
 
         GameObject player;
-
         Vector3 spawnLocation;
-
         Health healthComponent;
-
         float playerLastSeen = Mathf.Infinity;
-
+        float timeSinceArrivedAtWaypoint = Mathf.Infinity;
         public float suspicionTime = 4f;
+        int currentWaypointIndex = 0;
 
         private void Start()
         {
@@ -39,19 +44,71 @@ namespace RPG.Control
         {
             if (Vector3.Distance(transform.position, player.transform.position) <= chaseDistance)
             {
-                playerLastSeen = 0;
-                GetComponent<Fighter>().Attack(player);           
+                AttackBehaviour();
             }
             else if (playerLastSeen <= suspicionTime)
             {
-                GetComponent<ActionScheduler>().CancelCurrentAction();
+                SuspicionBehaviour();
             }
             else
             {
-                GetComponent<Fighter>().Cancel();
-                GetComponent<Mover>().StartMoveAction(spawnLocation);
+                PatrolBehaviour();
             }
+            UpdateTimers();
+        }
+
+        private void UpdateTimers()
+        {
             playerLastSeen += Time.deltaTime;
+            timeSinceArrivedAtWaypoint += Time.deltaTime;
+        }
+
+        private void AttackBehaviour()
+        {
+            playerLastSeen = 0;
+            GetComponent<Fighter>().Attack(player);
+        }
+
+        private void SuspicionBehaviour()
+        {
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+        }
+
+        private void PatrolBehaviour()
+        {
+            Vector3 nextPosition = spawnLocation;
+
+            if(patrolPath != null)
+            {
+                if (AtWaypoint())
+                {
+                    timeSinceArrivedAtWaypoint = 0f;
+                    CycleWaypoint();
+                }
+                nextPosition = GetCurrentWaypoint();
+            }
+            if(timeSinceArrivedAtWaypoint >= dwellTime)
+            {
+                GetComponent<Fighter>().Cancel();
+                GetComponent<Mover>().StartMoveAction(nextPosition);
+            }
+
+        }
+
+        private Vector3 GetCurrentWaypoint()
+        {
+            return patrolPath.GetWaypoint(currentWaypointIndex);
+        }
+
+        private void CycleWaypoint()
+        {
+            currentWaypointIndex =  patrolPath.GetNextIndex(currentWaypointIndex);
+        }
+
+        private bool AtWaypoint()
+        {
+            float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
+            return distanceToWaypoint < waypointTolerance;
         }
 
         // unity calls
