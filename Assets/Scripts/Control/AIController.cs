@@ -92,7 +92,7 @@ namespace RPG.Control
             }
             if(timeSinceArrivedAtWaypoint >= dwellTime)
             {
-                GetComponent<Fighter>().Cancel();
+                GetComponent<ActionScheduler>().CancelCurrentAction();
                 GetComponent<Mover>().StartMoveAction(nextPosition);
             }
 

@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 2873286676794187800, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Enemy (4)
       objectReference: {fileID: 0}
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
@@ -85,17 +85,17 @@ PrefabInstance:
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 37.18
       objectReference: {fileID: 0}
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
@@ -105,17 +105,17 @@ PrefabInstance:
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4635780518071465467, guid: 0d2abdd295446364f88da2fdc2c93202,
         type: 3}
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 5.6
   chaseDistance: 5
-  chaseSpeedMultiplier: 0.75
+  chaseSpeedMultiplier: 0.8
   patrolSpeedMultiplier: 0.3
   patrolPath: {fileID: 0}
   waypointTolerance: 1
