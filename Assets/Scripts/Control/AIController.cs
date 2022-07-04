@@ -10,14 +10,15 @@ namespace RPG.Control
 {
     public class AIController : MonoBehaviour
     {
-        [SerializeField]
-        float chaseDistance = 5f;
-        [SerializeField]
-        PatrolPath patrolPath;
-        [SerializeField]
-        float waypointTolerance = 1f;
-        [SerializeField]
-        float dwellTime = 2f;
+        [SerializeField] float maxSpeed = 5.6f;
+        [SerializeField] float chaseDistance = 5f;
+        [Range(0,1)]
+        [SerializeField] float chaseSpeedMultiplier = 0.75f;
+        [Range(0,1)]
+        [SerializeField] float patrolSpeedMultiplier = 0.3f;
+        [SerializeField] PatrolPath patrolPath;
+        [SerializeField] float waypointTolerance = 1f;
+        [SerializeField] float dwellTime = 2f;
 
         GameObject player;
         Vector3 spawnLocation;
@@ -65,6 +66,7 @@ namespace RPG.Control
 
         private void AttackBehaviour()
         {
+            GetComponent<Mover>().SetSpeed(chaseSpeedMultiplier * maxSpeed);
             playerLastSeen = 0;
             GetComponent<Fighter>().Attack(player);
         }
@@ -76,6 +78,7 @@ namespace RPG.Control
 
         private void PatrolBehaviour()
         {
+            GetComponent<Mover>().SetSpeed(patrolSpeedMultiplier * maxSpeed);
             Vector3 nextPosition = spawnLocation;
 
             if(patrolPath != null)

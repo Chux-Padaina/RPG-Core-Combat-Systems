@@ -55,5 +55,9 @@ namespace RPG.Movement
             navMeshAgent.destination = destination;
         }
 
+        public void SetSpeed(float speed)
+        {
+            navMeshAgent.speed = speed;
+        }
     }
 }

@@ -189,5 +189,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b91f9814705ef954f87994a7503a5dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxSpeed: 5.6
   chaseDistance: 5
+  chaseSpeedMultiplier: 0.75
+  patrolSpeedMultiplier: 0.3
+  patrolPath: {fileID: 0}
+  waypointTolerance: 1
+  dwellTime: 2
   suspicionTime: 3.5
