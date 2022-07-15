@@ -15,6 +15,9 @@ namespace RPG.Combat
         [SerializeField]
         float currentWeaponDamage = 25f;
 
+        [SerializeField] GameObject weaponPrefab = null;
+        [SerializeField] Transform handTransform = null;
+
         private float timeSinceLastAttack = Mathf.Infinity;
 
         Health target;
